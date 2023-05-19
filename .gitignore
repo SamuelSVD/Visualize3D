@@ -1,0 +1,12 @@
+__history/
+__recovery/
+Win32/
+*.local
+src/Visualize3D/obj
+src/Visualize3D/bin
+Installer/bin
+.vs
+*.suo
+Installer/binaries
+*.pfx
+*.exe
