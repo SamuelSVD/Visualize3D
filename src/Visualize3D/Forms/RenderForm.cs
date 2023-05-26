@@ -15,6 +15,30 @@ namespace Visualize3D {
 
 	public partial class RenderForm : Form {
 		public Visualize3DModel Model;
+		private DrawablePointModel? _selectedPoint;
+		public DrawablePointModel? SelectedPoint {
+			get {
+				return _selectedPoint;
+			}
+			set {
+				_selectedPoint= value;
+				if (SelectedPointChanged != null) {
+					SelectedPointChanged(this, EventArgs.Empty);
+				}
+			}
+		}
+		public DrawableRectangularPrismModel? _selectedBox;
+		public DrawableRectangularPrismModel? SelectedBox {
+			get {
+				return _selectedBox;
+			}
+			set {
+				_selectedBox = value;
+				if (SelectedBoxChanged != null) {
+					SelectedBoxChanged(this, EventArgs.Empty);
+				}
+			}
+		}
 		public RenderForm(Visualize3DModel model) {
 			InitializeComponent();
 			Model = model;
