@@ -30,11 +30,11 @@ namespace Visualize3D.Forms {
 		}
 		public void InitializeForm() {
 			if (_renderForm != null) {
-				splitContainer1.Panel2.Controls.Remove(_renderForm.GLControl);
+				splitContainer1.Panel2.Controls.Remove(_renderForm.Control);
 				_renderForm.Dispose();
 			}
 			_renderForm = new RenderForm(Model);
-			splitContainer1.Panel2.Controls.Add(_renderForm.GLControl);
+			splitContainer1.Panel2.Controls.Add(_renderForm.Control);
 			_renderForm.SelectedBoxChanged += _renderForm_SelectedBoxChanged;
 			_renderForm.SelectedPointChanged += _renderForm_SelectedPointChanged;
 			UpdateFormText();
@@ -95,7 +95,7 @@ namespace Visualize3D.Forms {
 			Text += ProgramData.Changed ? "*" : string.Empty;
 		}
 		private void AddPointButton_Click(object sender, EventArgs e) {
-			double x = 0, y = 0, z = 0;
+			float x = 0, y = 0, z = 0;
 			if (!TryGetValue(ref x, PointXTextBox.Text)) {
 				MessageBox.Show("Invalid X Value");
 				return;
@@ -120,19 +120,22 @@ namespace Visualize3D.Forms {
 			}
 			ProgramData.Changed = true;
 			UpdateFormText();
+			if (_renderForm != null) {
+				_renderForm.Render();
+			}
 		}
 		private void UpdatePointButton_Click(object sender, EventArgs e) {
 			if (SelectedPoint != null) {
-				double x = 0, y = 0, z = 0;
-				if (!TryGetValue(ref x, PointXTextBox.Text)) {
+				float x = 0, y = 0, z = 0;
+				if (!TryGetValue(ref x, SelectedPointXTextBox.Text)) {
 					MessageBox.Show("Invalid X Value");
 					return;
 				}
-				if (!TryGetValue(ref y, PointYTextBox.Text)) {
+				if (!TryGetValue(ref y, SelectedPointYTextBox.Text)) {
 					MessageBox.Show("Invalid Y Value");
 					return;
 				}
-				if (!TryGetValue(ref z, PointZTextBox.Text)) {
+				if (!TryGetValue(ref z, SelectedPointZTextBox.Text)) {
 					MessageBox.Show("Invalid Z Value");
 					return;
 				}
@@ -141,6 +144,9 @@ namespace Visualize3D.Forms {
 				SelectedPoint.Z = z;
 				ProgramData.Changed = true;
 				UpdateFormText();
+			}
+			if (_renderForm != null) {
+				_renderForm.Render();
 			}
 		}
 		private void _renderForm_SelectedBoxChanged(object? sender, EventArgs e) {
@@ -182,7 +188,7 @@ namespace Visualize3D.Forms {
 			}
 		}
 		private void AddBoxButton_Click(object sender, EventArgs e) {
-			double x = 0, y = 0, z = 0, lx = 0, ly = 0, lz = 0, rx = 0, ry = 0, rz = 0;
+			float x = 0, y = 0, z = 0, lx = 0, ly = 0, lz = 0, rx = 0, ry = 0, rz = 0;
 			if (!TryGetValue(ref x, BoxXTextBox.Text)) {
 				MessageBox.Show("Invalid X Value");
 				return;
@@ -238,7 +244,7 @@ namespace Visualize3D.Forms {
 		}
 		private void UpdateBoxButton_Click(object sender, EventArgs e) {
 			if (SelectedBox != null) {
-				double x = 0, y = 0, z = 0, lx = 0, ly = 0, lz = 0, rx = 0, ry = 0, rz = 0;
+				float x = 0, y = 0, z = 0, lx = 0, ly = 0, lz = 0, rx = 0, ry = 0, rz = 0;
 				if (!TryGetValue(ref x, BoxXTextBox.Text)) {
 					MessageBox.Show("Invalid X Value");
 					return;
@@ -288,9 +294,9 @@ namespace Visualize3D.Forms {
 				UpdateFormText();
 			}
 		}
-		private bool TryGetValue(ref double val, string text) {
+		private bool TryGetValue(ref float val, string text) {
 			try {
-				val = Convert.ToDouble(text);
+				val = Convert.ToSingle(text);
 				return true;
 			}
 			catch {

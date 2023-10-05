@@ -8,10 +8,10 @@ using System.Xml.Serialization;
 namespace Visualize3D.Models {
 	public class PointModel{
 		[XmlAttribute]
-		public double X { get; set; } = 0;
+		public float X { get; set; } = 0;
 		[XmlAttribute]
-		public double Y { get; set; } = 0;
+		public float Y { get; set; } = 0;
 		[XmlAttribute]
-		public double Z { get; set; } = 0;
+		public float Z { get; set; } = 0;
 	}
 }
